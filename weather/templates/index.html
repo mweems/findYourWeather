@@ -5,7 +5,20 @@
 </head>
 <body>
 	<header>Welcome {{user}}
-		<a href="/login">login/signup</a>
+		<div style='float:right'>
+			<a href="/login">login/signup</a>
+		</div>
 	</header>
+	<form method='POST'>
+		<input type="text" name="city" value="Austin">
+		<input type="submit" value="Submit">
+	</form>
+	{% if today %}
+		<h2>Today's Weather in {{today.city}}</h2>
+		<div>It's currently {{today.temp}}</div>
+		<div>{{today.description}}</div>
+		<div>The high today is {{today.temp_max}}</div>
+		<div>The low today is {{today.temp_min}}</div>
+	{% endif %}
 </body>
 </html>
