@@ -10,8 +10,9 @@ def index(request):
 		city = request.POST.get('city')
 		response = requests.get("http://api.openweathermap.org/data/2.5/weather?q=" + city + '&mode=json&units=imperial&APPID=9f592b7a51c96031cae6cb887d0594c4')
 		data = response.json()
-		today = {'city': content['name'], 'temp': content['main']['temp'], 'temp_max': content['main']['temp_max'],
-				'temp_min': content['main']['temp_min'], 'description': content['weather'][0]['description']}
+		print(data)
+		today = {'city': data['name'], 'temp': data['main']['temp'], 'temp_max': data['main']['temp_max'],
+				'temp_min': data['main']['temp_min'], 'description': data['weather'][0]['description']}
 		return render(request, 'index.html', {'user': user, 'today': today})
 	return render(request, 'index.html', {'user': user})
 
