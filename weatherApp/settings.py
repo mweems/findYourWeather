@@ -138,3 +138,4 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 LOGIN_REDIRECT_URL = '/'
+DISABLE_COLLECTSTATIC = 1
