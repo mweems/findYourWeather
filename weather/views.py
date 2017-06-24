@@ -5,8 +5,8 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
-from forms import SignUpForm
-from models import City
+from weather.forms import SignUpForm
+from weather.models import City
 
 @csrf_exempt
 def index(request):
