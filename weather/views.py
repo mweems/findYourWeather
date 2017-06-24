@@ -11,19 +11,24 @@ from weather.models import City
 @csrf_exempt
 def index(request):
 	user = ''
+	date = datetime.datetime.now()
+	fetch = False
+
 	if request.user.is_authenticated():
 		user = User.objects.get(username=request.user.username)
-		print(user.city.current_city)
+	if request.user.is_authenticated() and not request.method == 'POST':
+		city = user.city.current_city
+		fetch = True
 	if request.method == 'POST':
 		city = request.POST.get('city')
-		daily = getDailyForecast(city)
-		forecast = getWeeklyForecast(city)
+		fetch = True		
+	if fetch:
+		forecast = renderWeather(request, city)
+		forecast['user'] = user
+		forecast['date'] = date
+		return render(request, 'index.html', forecast)
 
-		return render(request, 'index.html', {
-			'user': user, 
-			'today': daily, 
-			'forecast': forecast})
-	return render(request, 'index.html', {'user': user})
+	return render(request, 'index.html')
 
 def signup(request):
 	if request.method == 'POST':
@@ -40,6 +45,12 @@ def signup(request):
 	else:
 		form = SignUpForm()
 	return render(request, 'signup.html', {'form': form})
+
+def renderWeather(request, city):
+	daily = getDailyForecast(city)
+	forecast = getWeeklyForecast(city)
+
+	return { 'today': daily, 'forecast': forecast}
 
 def getDailyForecast(city):
 	try:

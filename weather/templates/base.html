@@ -5,14 +5,18 @@
     <title>{% block title %}Personal Weather Sign up{% endblock %}</title>
   </head>
   <body>
-    <header>
+    <header align='center'>
       <h1>Your Weather</h1>
       {% if user.is_authenticated %}
+        <h2>Welcome {{user}}</h2>
+      {% endif %}
+      {% if user.is_authenticated %}
+      <div align='right'>
         <a href="{% url 'logout' %}">logout</a>
       {% else %}
         <a href="{% url 'login' %}">login</a> / <a href="{% url 'signup' %}">signup</a>
+      </div>
       {% endif %}
-      <hr>
     </header>
     <main>
       {% block content %}
