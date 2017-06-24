@@ -7,49 +7,60 @@
 		<input type="submit" value="Submit">
 	</form>
 	{% if today %}
-	{% if today.error %}
-	<table style='width:50%;margin-left:auto;margin-right:auto'>
-			<thead>
-				<tr>
-					<td colspan='2'>
-						<h2>{{today.error}}</h2>
-					</td>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
+		{% if today.error %}
+			<table style='width:50%;margin-left:auto;margin-right:auto'>
+				<thead>
+					<tr>
+						<td colspan='2'>
+							<h2>{{today.error}}</h2>
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
 		{% else %}
-		<table style='width:50%;margin-left:auto;margin-right:auto'>
-			<thead>
-				<tr>
-					<td colspan='2'>
-						<h3>{{today.city}}</h3>
-						<h4>{{date.date}}</h4>
-						<h4>{{today.description}}</h4>
-						<h1>{{today.temp}} F</h1>
-						
-					</td>
-				</tr>
-				<tr>
-					<td>High</td>
-					<td>Low</td>
-			</thead>
-			<tbody>
-				<tr>
-					<td>{{today.temp_max}} F</td>
-					<td>{{today.temp_min}} F</td>
-				</tr>
-			</tbody>
-		</table>
-	{% endif %}
+			<table style='width:50%;margin-left:auto;margin-right:auto'>
+				<thead>
+					<tr>
+						<td colspan='2'>
+							<h3>{{today.city}}</h3>
+							<h4>{{date.date}}</h4>
+							<h4>{{today.description}}</h4>
+							<h1>{{today.temp}} F</h1>
+							
+						</td>
+					</tr>
+					<tr>
+						<td>High</td>
+						<td>Low</td>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{today.temp_max}} F</td>
+						<td>{{today.temp_min}} F</td>
+					</tr>
+				</tbody>
+			</table>
+		{% endif %}
 	{% endif %}
 	{% if forecast.error %}
-	{% else %}
-	{% for key in forecast %}
-		<div>{{key}}</div>
-		<div>------------</div>
-	{% endfor %}
+		{% else %}
+		{% for key in forecast %}
+				<table>
+				{% for day in key %}
+					<thead>
+						<tr>{{day.date}}</tr><br>
+						<tr>{{day.time}}</tr><br>
+					</thead>
+					<tbody>
+						<tr>{{day.main}}</tr>
+						<tr>{{day.temp_max}}</tr>
+						<tr>{{day.temp_min}}</tr>
+					</tbody>
+				{% endfor %}	
+				</table>
+		{% endfor %}
 	{% endif %}
 </body>
 {% endblock %}

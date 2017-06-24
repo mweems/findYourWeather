@@ -23,10 +23,10 @@ def index(request):
 		city = request.POST.get('city')
 		fetch = True		
 	if fetch:
-		forecast = renderWeather(request, city)
-		forecast['user'] = user
-		forecast['date'] = date
-		return render(request, 'index.html', forecast)
+		data = renderWeather(request, city)
+		data['user'] = user
+		data['date'] = date
+		return render(request, 'index.html', data)
 
 	return render(request, 'index.html')
 
@@ -50,7 +50,7 @@ def renderWeather(request, city):
 	daily = getDailyForecast(city)
 	forecast = getWeeklyForecast(city)
 
-	return { 'today': daily, 'forecast': forecast}
+	return {'today': daily, 'forecast': forecast}
 
 def getDailyForecast(city):
 	try:
@@ -70,9 +70,14 @@ def getWeeklyForecast(city):
 				+ city + '&mode=json&units=imperial&APPID=9f592b7a51c96031cae6cb887d0594c4')
 		forecast = forecast.json()
 		forecast_list = []
-		for data in forecast['list']:
+		time_map = {'00:00:00': 'Midnight', '03:00:00': '3 AM', '06:00:00': '6 AM',
+					'09:00:00': '9 AM', '12:00:00': 'Noon', '15:00:00': '3 PM',
+					'18:00:00': '6 PM', '21:00:00': '9 PM'}
+		for data in forecast.get('list'):
+			time = str(data['dt_txt'][11:])
 			rep = {
 				'date': datetime.datetime.strptime(data['dt_txt'][:10], '%Y-%m-%d').date(),
+				'time': time_map.get(time),
 				'temp': data['main']['temp'],
 				'temp_max': data['main']['temp_max'],
 				'temp_min': data['main']['temp_min'],
@@ -80,6 +85,28 @@ def getWeeklyForecast(city):
 				'main': data['weather'][0]['main']
 			}
 			forecast_list.append(rep)
+		forecast_list = getWeeklyAvgList(forecast_list)
 	except:
 		forecast_list = {'error': True}
 	return forecast_list
+
+def getWeeklyAvgList(forecast_list):
+	week = []
+	day = []
+	date = ''
+	for item in forecast_list:
+		ldate = item['date']
+		if not date:
+			date = item['date']
+		if ldate == date:
+			day.append(item)
+		else:
+			week.append(day)
+			day = []
+			day.append(item)
+			date = item['date']
+	return week
+
+
+
+
