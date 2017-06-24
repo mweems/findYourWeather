@@ -79,16 +79,16 @@ WSGI_APPLICATION = 'weatherApp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'users',
-        'USER': 'owner',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd4k95gclb355g1',
+        'USER': 'bkvaemrxttbvia',
+        'PASSWORD': '6457ab6caf41659c64a1e4421c9fe7be066abcfe302152867fc0c7c90d0f3b48',
+        'HOST': 'ec2-50-17-236-15.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
-
-DATABASES['default'] = dj_database_url.config()
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
