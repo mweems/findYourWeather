@@ -1,12 +1,19 @@
 import requests
 import json
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
+from forms import SignUpForm
+from models import City
 
 @csrf_exempt
 def index(request):
-	user = 'Matt Weems'
+	user = ''
+	if request.user.is_authenticated():
+		user = User.objects.get(username=request.user.username)
+		print(user.city.current_city)
 	if request.method == 'POST':
 		city = request.POST.get('city')
 		daily = getDailyForecast(city)
@@ -18,8 +25,21 @@ def index(request):
 			'forecast': forecast})
 	return render(request, 'index.html', {'user': user})
 
-def login(request):
-	return render(request, 'login.html')
+def signup(request):
+	if request.method == 'POST':
+		form = SignUpForm(request.POST)
+		if form.is_valid():
+			form.save()
+			username = form.cleaned_data.get('username')
+			password = form.cleaned_data.get('password1')
+			user = authenticate(username=username, password=password)
+			city = City(user=user, current_city=form.cleaned_data.get('current_city'))
+			city.save()
+			login(request, user)
+			return redirect('/')
+	else:
+		form = SignUpForm()
+	return render(request, 'signup.html', {'form': form})
 
 def getDailyForecast(city):
 	try:

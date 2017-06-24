@@ -5,8 +5,13 @@
 </head>
 <body>
 	<header>Welcome {{user}}
+		
 		<div style='float:right'>
-			<a href="/login">login/signup</a>
+			{% if user.is_authenticated %}
+        		<a href="{% url 'logout' %}">logout</a>
+      		{% else %}
+        		<a href="{% url 'login' %}">login</a> / <a href="{% url 'signup' %}">signup</a>
+      		{% endif %}
 		</div>
 	</header>
 	<form method='POST'>
