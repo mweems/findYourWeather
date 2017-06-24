@@ -14,43 +14,31 @@
 		<input type="submit" value="Submit">
 	</form>
 	{% if today %}
-		<table style='float:center'>
+		<table style='width:50%;margin-left:auto;margin-right:auto'>
 			<thead>
 				<tr>
-					<td colspan='3'>
+					<td colspan='2'>
 						<h2>Today's Weather in {{today.city}}</h2>
-					</td>
-				</tr>
-				<tr>
-					<td colspan='3'>
+						<h2>It's currently</h2>
+						<h2>{{today.temp}}</h2>
 						<h2>{{today.description}}</h2>
 					</td>
 				</tr>
 				<tr>
-					<td colspan='3'>
-						<h4>Temperature</h4>
-					</td>
-				</tr>
-
-				<tr>
-					<td>Current</td>
 					<td>High</td>
 					<td>Low</td>
 			</thead>
 			<tbody>
 				<tr>
-					<td>{{today.temp}}</td>
 					<td>{{today.temp_max}}</td>
 					<td>{{today.temp_min}}</td>
 				</tr>
-				<!-- <tr>
-					<td>
-						<h3>{{today.description}}</h3>
-					</td>
-				</tr> -->
 			</tbody>
-
 		</table>
 	{% endif %}
+	{% for key in forecast %}
+		<div>{{key}}</div>
+		<div>------------</div>
+	{% endfor %}
 </body>
 </html>
