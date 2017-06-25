@@ -3,9 +3,12 @@
 {% block content %}
 <body>
 	<form method='POST'>
+		<div>Enter a City to See the Days weather and the weekly forecast</div><br>
 		<input type="text" name="city">
 		<input type="submit" value="Submit">
+		{% if user.is_authenticated %}
 		<input type='checkbox' name='change_current'>Check to set this as your current city
+		{% endif %}
 	</form>
 	{% if today %}
 		{% if today.error %}
@@ -21,7 +24,9 @@
 				</tbody>
 			</table>
 		{% else %}
+		{% if user.is_authenticated %}
 		<div>Your Current City is {{user.city.current_city}}</div>
+		{% endif %}
 			<table style='width:50%;margin-left:auto;margin-right:auto'>
 				<thead>
 					<tr>
