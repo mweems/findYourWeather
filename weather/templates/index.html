@@ -36,7 +36,7 @@
 			{% endfor %}
 		{% endif %}
 			<table style='width:50%;margin-left:auto;margin-right:auto'>
-				<thead>
+				<tbody>
 					<tr>
 						<td colspan='2'>
 							<h3><a href='/set_current/{{today.city}}'>{{today.city}}</a></h3>
@@ -45,15 +45,6 @@
 							<h1>{{today.temp}} F</h1>
 							
 						</td>
-					</tr>
-					<tr>
-						<td>High</td>
-						<td>Low</td>
-				</thead>
-				<tbody>
-					<tr>
-						<td>{{today.temp_max}} F</td>
-						<td>{{today.temp_min}} F</td>
 					</tr>
 				</tbody>
 			</table>
@@ -68,8 +59,7 @@
 					<tr><td>{{day.date}}</td></tr>
 					<tr><td>{{day.time}}</td></tr>
 					<tr><td>{{day.main}}</td></tr>
-					<tr><td>{{day.temp_max}} F High</td></tr>
-					<tr><td>{{day.temp_min}} F Low</td></tr>
+					<tr><td>{{day.temp}} F</td></tr>
 				</table>
 			{% endfor %}	
 	{% endfor %}
