@@ -8,38 +8,47 @@ from django.contrib.auth.models import User
 from weather.forms import SignUpForm
 from weather.models import City, CityList
 
+
 @csrf_exempt
 def index(request):
-	user = ''
-	date = datetime.datetime.now()
-	fetch = False
-	cities = []
-
 	if request.user.is_authenticated():
-		user = User.objects.get(username=request.user.username)
-		cities = CityList.objects.filter(user=user)
-	if request.user.is_authenticated() and not request.method == 'POST':
-		city = user.city.current_city
-		fetch = True
+		return redirect('/weather/')
 	if request.method == 'POST':
 		city = request.POST.get('city')
-		if 'change_current' in request.POST:
-			cy = City.objects.get(user=user)
-			cy.current_city = city
-			cy.save()
+		data = renderWeather(city)
+		data['date'] = datetime.datetime.now()
+		return render(request, 'index.html', data)
+	return render(request, 'index.html')
+
+@csrf_exempt
+def weather(request):
+	user = request.user
+	cities = CityList.objects.filter(user=user)
+	city = user.city.current_city
+	if request.GET.get('city'):
+		city = request.GET.get('city')
+	if request.method == 'POST':
+		city = request.POST.get('city')
 		if 'add_new' in request.POST:
 			obj, created = CityList.objects.get_or_create(user=user, city=city)
 			if created:
 				obj.save()
-		fetch = True		
-	if fetch:
-		data = renderWeather(request, city)
-		data['cities'] = list(cities)
-		data['user'] = user
-		data['date'] = date
-		return render(request, 'index.html', data)
+	data = renderWeather(city)
+	data['cities'] = list(cities)
+	data['user'] = user
+	data['date'] = datetime.datetime.now()
+	return render(request, 'index.html', data)
 
-	return render(request, 'index.html')
+def delete(request, city):
+	CityList.objects.get(user=request.user, city=city).delete()
+	return redirect('weather')
+
+def set_current(request, city):
+	cur_city = City.objects.get(user=request.user)
+	cur_city.current_city = city
+	cur_city.save()
+	return redirect('weather')
+
 
 def signup(request):
 	if request.method == 'POST':
@@ -57,7 +66,7 @@ def signup(request):
 		form = SignUpForm()
 	return render(request, 'signup.html', {'form': form})
 
-def renderWeather(request, city):
+def renderWeather(city):
 	daily = getDailyForecast(city)
 	forecast = getWeeklyForecast(city)
 
@@ -96,12 +105,12 @@ def getWeeklyForecast(city):
 				'main': data['weather'][0]['main']
 			}
 			forecast_list.append(rep)
-		forecast_list = getWeeklyAvgList(forecast_list)
+		forecast_list = getWeeklyList(forecast_list)
 	except:
 		forecast_list = {'error': True}
 	return forecast_list
 
-def getWeeklyAvgList(forecast_list):
+def getWeeklyList(forecast_list):
 	week = []
 	day = []
 	date = ''

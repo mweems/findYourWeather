@@ -7,8 +7,7 @@
 		<input type="text" name="city">
 		<input type="submit" value="Submit">
 		{% if user.is_authenticated %}
-		<br /><input type='checkbox' name='change_current'>Set this as your current city<br />
-		<input type='checkbox' name='add_new'>Add city to your list
+		<br /><input type='checkbox' name='add_new'>Add city to your list
 		{% endif %}
 	</form>
 	{% if today %}
@@ -27,17 +26,20 @@
 		{% else %}
 		{% if user.is_authenticated %}
 		<br />
-		<div>Your Current City is {{user.city.current_city}}</div>
+		<div>Your Current City is 
+			<a href='?city={{user.city.current_city}}'>{{user.city.current_city}}</a>
+		</div>
 		<br />
-		{% for city in cities %}
-			<div>{{city.city}}</div>
-		{% endfor %}
+			{% for city in cities %}
+				<a href='?city={{city.city}}'>{{city.city}}</a> :
+				<a href='/delete/{{city.city}}'>delete</a><br />
+			{% endfor %}
 		{% endif %}
 			<table style='width:50%;margin-left:auto;margin-right:auto'>
 				<thead>
 					<tr>
 						<td colspan='2'>
-							<h3>{{today.city}}</h3>
+							<h3><a href='/set_current/{{today.city}}'>{{today.city}}</a></h3>
 							<h4>{{date.date}}</h4>
 							<h4>{{today.description}}</h4>
 							<h1>{{today.temp}} F</h1>
