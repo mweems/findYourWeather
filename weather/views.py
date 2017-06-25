@@ -21,6 +21,10 @@ def index(request):
 		fetch = True
 	if request.method == 'POST':
 		city = request.POST.get('city')
+		if 'change_current' in request.POST:
+			cy = City.objects.get(user=user)
+			cy.current_city = city
+			cy.save()
 		fetch = True		
 	if fetch:
 		data = renderWeather(request, city)
@@ -79,8 +83,8 @@ def getWeeklyForecast(city):
 				'date': datetime.datetime.strptime(data['dt_txt'][:10], '%Y-%m-%d').date(),
 				'time': time_map.get(time),
 				'temp': data['main']['temp'],
-				'temp_max': data['main']['temp_max'],
-				'temp_min': data['main']['temp_min'],
+				'temp_max': int(data['main']['temp_max']),
+				'temp_min': int(data['main']['temp_min']),
 				'description': data['weather'][0]['description'],
 				'main': data['weather'][0]['main']
 			}
