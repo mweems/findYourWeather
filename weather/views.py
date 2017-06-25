@@ -6,16 +6,18 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from weather.forms import SignUpForm
-from weather.models import City
+from weather.models import City, CityList
 
 @csrf_exempt
 def index(request):
 	user = ''
 	date = datetime.datetime.now()
 	fetch = False
+	cities = []
 
 	if request.user.is_authenticated():
 		user = User.objects.get(username=request.user.username)
+		cities = CityList.objects.filter(user=user)
 	if request.user.is_authenticated() and not request.method == 'POST':
 		city = user.city.current_city
 		fetch = True
@@ -25,9 +27,14 @@ def index(request):
 			cy = City.objects.get(user=user)
 			cy.current_city = city
 			cy.save()
+		if 'add_new' in request.POST:
+			obj, created = CityList.objects.get_or_create(user=user, city=city)
+			if created:
+				obj.save()
 		fetch = True		
 	if fetch:
 		data = renderWeather(request, city)
+		data['cities'] = list(cities)
 		data['user'] = user
 		data['date'] = date
 		return render(request, 'index.html', data)
@@ -82,7 +89,7 @@ def getWeeklyForecast(city):
 			rep = {
 				'date': datetime.datetime.strptime(data['dt_txt'][:10], '%Y-%m-%d').date(),
 				'time': time_map.get(time),
-				'temp': data['main']['temp'],
+				'temp': int(data['main']['temp']),
 				'temp_max': int(data['main']['temp_max']),
 				'temp_min': int(data['main']['temp_min']),
 				'description': data['weather'][0]['description'],

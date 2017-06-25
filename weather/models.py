@@ -8,3 +8,7 @@ from django.dispatch import receiver
 class City(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	current_city = models.CharField(max_length=30, null=True, blank=True)
+
+class CityList(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	city = models.CharField(max_length=30, null=True, blank=True)
