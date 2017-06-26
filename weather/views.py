@@ -70,15 +70,20 @@ def signup(request):
 def renderWeather(city):
 	geolocator = Nominatim()
 	location = geolocator.geocode(city)
-	print(location.latitude, 'loc')
-	alert = getAlerts(location)
+	alert_list = getAlerts(location)
 	daily = getDailyForecast(city)
 	forecast = getWeeklyForecast(city)
-	data = {'today': daily, 'forecast': forecast, 'alert': alert}
+	data = {'today': daily, 'forecast': forecast}
 	return data
 
 def getAlerts(location):
-	return {}
+	try:
+		alert = requests.get("https://api.darksky.net/forecast/a17545aec6bdbad362733ae531116d9f/%s,%s" % (location.latitude, location.longitude))
+		alert_info = alert.json()
+	except:
+		alert_info = {'error': True}
+    
+	return alert_info
 
 def getDailyForecast(city):
 	try:
@@ -138,7 +143,3 @@ def getWeeklyList(forecast_list):
 			day.append(item)
 			date = item['date']
 	return week
-
-
-
-

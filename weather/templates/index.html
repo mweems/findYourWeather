@@ -2,6 +2,13 @@
 {% extends 'base.html'%}
 {% block content %}
 <body>
+	{% if alert_list.error %}
+	{% else %}
+	{% for alert in alert_list %}
+	<div name='alert'><h1>{{alert.title}}</h1>From {{alert.time}} Until {{alert.expires}}</div>
+	<div name='alert_desc'>{{alert.description}}</div>
+	{% endfor %}
+	{% endif %}
 	<div id='today_info'>
 	<div id='sidebar'>
 	<div id='form'>
