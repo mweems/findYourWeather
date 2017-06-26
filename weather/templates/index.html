@@ -43,7 +43,11 @@
 		{% endif %}
 		</div>
 		<div id='today'>
+			{% if user.is_authenticated %}
 			<h1 id='current_city'><a href='/set_current/{{today.city}}'>{{today.city}}</a></h1>
+			{% else %}
+			<h1 id='current_city'>{{today.city}}</h1>
+			{% endif %}
 			<small id='help_text'>set as your current city</small>
 			<h4>{{date.date}}</h4>
 			<h2 id='today_desc'>{{today.description}}</h2>
