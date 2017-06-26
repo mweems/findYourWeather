@@ -3,7 +3,7 @@
 }
 
 #sidebar {
-	width: 33%;
+	width: 30%;
 	float: left;
 	/*background: red;*/
 }
@@ -19,21 +19,21 @@
 }
 
 #today {
-	width: 34%;
+	width: 40%;
 	float: left;
-	/*background: yellow;*/
-}
-
-#today table {
-	width: 50%;
-	margin-left: auto;
-	margin-right: auto;
+	text-align: center;
 }
 
 #spacer {
-	width: 33%;
+	width: 30%;
 	float: left;
 	min-height: 250px;
+}
+
+#forecast_spacer {
+	width: 20%;
+	float: left;
+	min-height: 500px;
 }
 
 #help_text {
@@ -63,5 +63,23 @@
 
 #forecast table {
 	display:inline-block;
+	border: 1px;
+	border-style:solid;
+	border-color: black;
 	float:left;
+}
+
+#forecast_day {
+	float: left;
+	text-align: center;
+}
+
+#high_temp {
+	font-weight: bold;
+	float: left
+}
+
+#low_temp {
+	font-weight: bold;
+	float: right;
 }

@@ -43,20 +43,13 @@
 		{% endif %}
 		</div>
 		<div id='today'>
-			<table>
-				<tbody>
-					<tr>
-						<td colspan='2'>
-							<h1 id='current_city'><a href='/set_current/{{today.city}}'>{{today.city}}</a></h1>
-							<small id='help_text'>set as your current city</small>
-							<h4>{{date.date}}</h4>
-							<h2 id='today_desc'>{{today.description}}</h2>
-							<h1 id='today_temp'>{{today.temp}} F</h1>
-							
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<h1 id='current_city'><a href='/set_current/{{today.city}}'>{{today.city}}</a></h1>
+			<small id='help_text'>set as your current city</small>
+			<h4>{{date.date}}</h4>
+			<h2 id='today_desc'>{{today.description}}</h2>
+			<h1 id='today_temp'>{{today.temp}} F</h1>
+			<div id='high_temp'>High <br />{{today.temp_max}} F</div>
+			<div id='low_temp'>Low <br />{{today.temp_min}} F</div>
 		</div>
 		{% endif %}
 	{% endif %}
@@ -65,17 +58,21 @@
 	</div><br />
 	{% if forecast.error %}
 	{% else %}
+	<div id='forecast_spacer'>
+	</div>
 	<div id='forecast'>
 	{% for key in forecast %}
+		<div id='forecast_day'>
 			{% for day in key %}
-				<table bordercolor='black'>
-					<tr><td>{{day.day}}</td</tr>
+				<table>
+					<tr><td>{{day.day}}</td></tr>
 					<tr><td>{{day.date}}</td></tr>
 					<tr><td>{{day.time}}</td></tr>
 					<tr><td>{{day.main}}</td></tr>
 					<tr><td>{{day.temp}} F</td></tr>
 				</table>
-			{% endfor %}	
+			{% endfor %}
+		</div>
 	{% endfor %}
 	</div>
 	{% endif %}
