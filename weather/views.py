@@ -110,7 +110,6 @@ def getWeeklyForecast(city):
 			}
 			forecast_list.append(rep)
 		forecast_list = getWeeklyList(forecast_list)
-		print(len(forecast_list))
 	except:
 		forecast_list = {'error': True}
 	return forecast_list
