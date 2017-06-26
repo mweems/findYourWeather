@@ -5,17 +5,14 @@
 #sidebar {
 	width: 30%;
 	float: left;
-	/*background: red;*/
 }
 
 #form {
 	width: 100%;
-	/*background: red;*/
 }
 
 #your_info {
 	width: 100%;
-	/*background: blue;*/
 }
 
 #today {
@@ -28,6 +25,13 @@
 	width: 30%;
 	float: left;
 	min-height: 250px;
+}
+
+#split {
+	width: 100%;
+	float: left;
+	min-height: 20px;
+	/*background: blue;*/
 }
 
 #forecast_spacer {
@@ -59,6 +63,8 @@
 #today_temp {
 	margin-top: 1px;
 	padding-top: 1px;
+	margin-bottom: none;
+	padding-bottom: none;
 }
 
 #forecast table {
@@ -74,12 +80,22 @@
 	text-align: center;
 }
 
+#temp {
+	background: yellow;
+}
+
 #high_temp {
+	margin-top: none;
+	padding-top: none;
+	margin-left: 180px;
 	font-weight: bold;
-	float: left
+	float: left;
 }
 
 #low_temp {
+	margin-top: none;
+	padding-top: none;
+	margin-right: 180px;
 	font-weight: bold;
 	float: right;
 }
