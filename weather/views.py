@@ -7,6 +7,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from weather.forms import SignUpForm
 from weather.models import City, CityList
+from geopy.geocoders import Nominatim
 
 
 @csrf_exempt
@@ -43,7 +44,7 @@ def delete(request, city):
 	CityList.objects.get(user=request.user, city=city).delete()
 	return redirect('weather')
 
-def set_current(request, city):
+def setCurrent(request, city):
 	cur_city = City.objects.get(user=request.user)
 	cur_city.current_city = city
 	cur_city.save()
@@ -67,10 +68,17 @@ def signup(request):
 	return render(request, 'signup.html', {'form': form})
 
 def renderWeather(city):
+	geolocator = Nominatim()
+	location = geolocator.geocode(city)
+	print(location.latitude, 'loc')
+	alert = getAlerts(location)
 	daily = getDailyForecast(city)
 	forecast = getWeeklyForecast(city)
+	data = {'today': daily, 'forecast': forecast, 'alert': alert}
+	return data
 
-	return {'today': daily, 'forecast': forecast}
+def getAlerts(location):
+	return {}
 
 def getDailyForecast(city):
 	try:
