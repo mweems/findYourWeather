@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
     url(r'^weather/$', views.weather, name='weather'),
-    url(r'^delete/(?P<city>(\w+))/$', views.delete, name='delete'),
+    url(r'^delete/(?P<city>([\w\ ]+))/$', views.delete, name='delete'),
     url(r'^set_current/(?P<city>([\w\ ]+))/$', views.setCurrent, name='setCurrent'),
 	url(r'^signup', views.signup, name='signup' ),
 	url(r'^login/$', auth_views.login, {'template_name': 'login.html'},name='login'),
