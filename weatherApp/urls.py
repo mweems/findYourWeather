@@ -14,5 +14,4 @@ urlpatterns = [
 	url(r'^signup', views.signup, name='signup' ),
 	url(r'^login/$', auth_views.login, {'template_name': 'login.html'},name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
-    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
 ]

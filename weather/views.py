@@ -93,10 +93,14 @@ def getWeeklyForecast(city):
 		time_map = {'00:00:00': 'Midnight', '03:00:00': '3 AM', '06:00:00': '6 AM',
 					'09:00:00': '9 AM', '12:00:00': 'Noon', '15:00:00': '3 PM',
 					'18:00:00': '6 PM', '21:00:00': '9 PM'}
+		weekday_map = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 
+						4: 'Friday', 5: 'Saturday', 6: 'Sunday'}
 		for data in forecast.get('list'):
 			time = str(data['dt_txt'][11:])
+			date = datetime.datetime.strptime(data['dt_txt'][:10], '%Y-%m-%d').date()
 			rep = {
-				'date': datetime.datetime.strptime(data['dt_txt'][:10], '%Y-%m-%d').date(),
+				'date': date,
+				'day': weekday_map.get(date.weekday()),
 				'time': time_map.get(time),
 				'temp': int(data['main']['temp']),
 				'temp_max': int(data['main']['temp_max']),
@@ -106,6 +110,7 @@ def getWeeklyForecast(city):
 			}
 			forecast_list.append(rep)
 		forecast_list = getWeeklyList(forecast_list)
+		print(len(forecast_list))
 	except:
 		forecast_list = {'error': True}
 	return forecast_list

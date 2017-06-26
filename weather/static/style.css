@@ -1,0 +1,67 @@
+#today_info {
+	width: 100%;
+}
+
+#sidebar {
+	width: 33%;
+	float: left;
+	/*background: red;*/
+}
+
+#form {
+	width: 100%;
+	/*background: red;*/
+}
+
+#your_info {
+	width: 100%;
+	/*background: blue;*/
+}
+
+#today {
+	width: 34%;
+	float: left;
+	/*background: yellow;*/
+}
+
+#today table {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#spacer {
+	width: 33%;
+	float: left;
+	min-height: 250px;
+}
+
+#help_text {
+	margin-top: 1px;
+	padding-top: 1px;
+	display: none;
+}
+
+#current_city {
+	margin-bottom: 1px;
+	padding-bottom: 1px;
+}
+
+#current_city:hover + #help_text{
+	display: block;
+}
+
+#today_desc {
+	margin-bottom: 1px;
+	padding-bottom: 1px;
+}
+
+#today_temp {
+	margin-top: 1px;
+	padding-top: 1px;
+}
+
+#forecast table {
+	display:inline-block;
+	float:left;
+}
